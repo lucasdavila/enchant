@@ -1,0 +1,84 @@
+<div class='carousel'>
+  <div class='main'>
+    <div class='about'>
+      <h1>CHANT IT UP</h1>
+      <p>
+        Sing, upload and mix. <br>
+        Show'em what you're made of.
+      </p>
+      <a href='#upload' class='btn primary'>SUBMIT YOUR VIDEO</a>
+      <a href='#learn_more' class='btn'>LEARN MORE</a>
+    </div>
+  </div>
+</div>
+
+<section>
+  <article id='chants_container'>
+    <div class='main'>
+      <h3>#NikeEnchant</h3>
+      <a href='http://getchute.com' class='powered'>Powered by chute</a>
+    </div>
+
+    <a href='#' class='btn' id='load_more'>LOAD MORE</a>
+  </article>
+
+  <footer id='learn_more'>
+  </footer>
+</section>
+
+<section id='upload'>
+  <article class='main'>
+    <%= render 'form' %>
+  </article>
+</section>
+
+<script class='chant-template' type='application/x-template'>
+  <div class='chant'>
+    <video  preload='metadata' onclick='showPlayer(this)' poster='{{ asset.thumbnail }}'>
+      <source src='{{ asset.url }}' type='video/mp4'>
+    </video>
+    <div class='info'>
+      <span class='username'>@{{ asset.username }}</span>
+      <span class='likes'> {{ asset.hearts }}</span>
+    </div>
+  </div>
+</script>
+
+<script class='chants-template' type='application/x-template'>
+  <div class='chants'></div>
+</script>
+
+<script>
+  Chute.ready(function(){
+    var ChantView = Chute.View.extend({
+      template: Chute.Utils.template('script.chant-template')
+    });
+
+    var ChantCollectionView = Chute.CollectionView.extend({
+      template: Chute.Utils.template('script.chants-template'),
+      itemView: ChantView
+    });
+
+    var chants = new Chute.API.Assets({ album: '<%= @album_shortcut %>', per_page: 4, random: <%= rand(1000) %> });
+
+    var view = new ChantCollectionView({
+      container: '#chants_container .main',
+      data: chants
+    });
+
+    view.render;
+
+    $('#load_more').attr('href', 'javascript:void(0)')
+                   .on('click', function() { view.data.nextPage(); });
+  });
+
+  function showPlayer(video) {
+    video = $(video).clone();
+
+    video.attr('preload', 'auto');
+    video.attr('controls', 'controls');
+    video.removeAttr('onclick');
+
+    video.dialog({ modal: true, width: 500, title: 'Video player' });
+  }
+</script>

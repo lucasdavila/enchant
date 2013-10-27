@@ -1,0 +1,4 @@
+<%= form_for :chant, :url => chant_upload_path, :html => { :multipart => true } do |f| %>
+  <%= f.file_field :video %>
+  <%= f.submit 'SEND' %>
+<% end %>

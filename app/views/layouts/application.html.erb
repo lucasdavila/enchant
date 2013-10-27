@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Nike Enchant</title>
+    <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+    <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+    <script src='//code.jquery.com/jquery-1.9.1.min.js'></script>
+    <script src='//s3.amazonaws.com/cdn.getchute.com/chute-js/v1/chute.min.js' data-load='view'></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.1/themes/ui-lightness/jquery-ui.min.css">
+    <link href='http://fonts.googleapis.com/css?family=Pathway+Gothic+One' rel='stylesheet' type='text/css'>
+    <%= csrf_meta_tags %>
+  </head>
+
+  <body>
+    <nav>
+      <div class='main'>
+        <a class='logo' href='<%= root_url %>'><%= image_tag 'nike.gif', :class => 'logo' %></a>
+        <span class='divider'></span>
+        <a href='#chants_container' class='current'>WATCH</a>
+        <a href='#learn_more'>LEARN</a>
+        
+        <span class='right'>
+          <% if user_signed_in? %>
+            <%= link_to 'SIGN OUT', destroy_user_session_path, :class => 'signout', :method => :delete %>
+          <% else %>
+            <%= link_to 'SIGN IN', user_omniauth_authorize_path(:facebook), :class => 'signin' %>
+          <% end %>
+
+          <span class='divider'></span>
+          <%= image_tag 'usa_flag.png', :class=> 'locale' %>
+        </span>
+      </div>
+    </nav>
+
+    <div class='main'> 
+      <% if notice %>
+        <p class="notice"><%= notice %></p>
+      <% end %>
+
+      <% if alert %>
+        <p class="alert"><%= alert %></p>
+      <% end %>
+    </div>
+
+    <%= yield %>
+  </body>
+
+  <footer>
+    <div class='main'>
+      <a href='#'>Contact Us</a>
+      <a href='#'>Privacy Policy</a>
+      <a href='#'>Terms of Use</a>
+        
+      <span class='right'>
+        <a href='#' class='powered'>Powered by Chute</a>
+        <span class='divider'></span>
+        &copy; 2013 Nike, Inc. All Rights Reserved 
+      </span>
+    </div>
+  </footer>
+</html>
